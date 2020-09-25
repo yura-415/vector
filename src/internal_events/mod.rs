@@ -10,6 +10,8 @@ mod api;
 mod auto_concurrency;
 #[cfg(feature = "transforms-aws_cloudwatch_logs_subscription_parser")]
 mod aws_cloudwatch_logs_subscription_parser;
+#[cfg(feature = "sources-aws_ecs_metrics")]
+mod aws_ecs_metrics;
 #[cfg(feature = "sources-aws_kinesis_firehose")]
 mod aws_kinesis_firehose;
 #[cfg(feature = "sinks-aws_kinesis_streams")]
@@ -108,6 +110,8 @@ pub use self::api::*;
 pub use self::auto_concurrency::*;
 #[cfg(feature = "transforms-aws_cloudwatch_logs_subscription_parser")]
 pub(crate) use self::aws_cloudwatch_logs_subscription_parser::*;
+#[cfg(feature = "sources-aws_ecs_metrics")]
+pub use self::aws_ecs_metrics::*;
 #[cfg(feature = "sources-aws_kinesis_firehose")]
 pub use self::aws_kinesis_firehose::*;
 #[cfg(feature = "sinks-aws_kinesis_streams")]

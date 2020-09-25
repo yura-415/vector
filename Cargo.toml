@@ -284,6 +284,7 @@ api-client = [
 # Sources
 sources = [
   "sources-apache_metrics",
+  "sources-aws_ecs_metrics",
   "sources-aws_kinesis_firehose",
   "sources-docker",
   "sources-file",
@@ -305,6 +306,7 @@ sources = [
   "sources-kubernetes-logs",
 ]
 sources-apache_metrics = []
+sources-aws_ecs_metrics = []
 sources-aws_kinesis_firehose = ["base64", "tls", "warp"]
 sources-docker = ["bollard"]
 sources-file = ["bytesize", "file-source"]
