@@ -765,7 +765,7 @@ test-wasm-build-modules: $(WASM_MODULE_OUTPUTS) ### Build all WASM test modules
 
 $(WASM_MODULE_OUTPUTS): MODULE = $(notdir $@)
 $(WASM_MODULE_OUTPUTS): ### Build a specific WASM module
-	@echo "# Building WASM module ${MODULE}, requires Rustc for wasm32-wasi."
+	$(if $(findstring true,$(AUTOINSTALL)),$(MAKE) -k ensure-has-wasm-toolchain,@echo "# Building WASM module ${MODULE}, requires Rustc for wasm32-wasi.")
 	${MAYBE_ENVIRONMENT_EXEC} cargo build \
 		--target-dir target/ \
 		--manifest-path tests/data/wasm/${MODULE}/Cargo.toml \
