@@ -240,6 +240,19 @@ mod tests {
             (r#"false || null"#, Ok(()), Ok(().into())),
             (r#"null || "foo""#, Ok(()), Ok("foo".into())),
             (r#". = "bar""#, Ok(()), Ok("bar".into())),
+            (r#"["foo", "bar", "baz"]"#, Ok(()), Ok(vec!["foo", "bar", "baz"].into())),
+            (
+                r#"
+                    .foo = [
+                        "foo",
+                        5,
+                        ["bar"],
+                    ]
+                    .foo
+                "#,
+                Ok(()),
+                Ok(vec!["foo".into(), 5.into(), Value::Array(vec!["bar".into()])].into()),
+            ),
         ];
 
         for (script, compile_expected, runtime_expected) in cases {

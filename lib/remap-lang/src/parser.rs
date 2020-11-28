@@ -2,8 +2,8 @@
 
 use crate::{
     expression::{
-        Arithmetic, Assignment, Block, Function, IfStatement, Literal, Noop, Not, Path, Target,
-        Variable,
+        Arithmetic, Array, Assignment, Block, Function, IfStatement, Literal, Noop, Not, Path,
+        Target, Variable,
     },
     function::Argument,
     state, Error, Expr, Function as Fn, Operator, Result, Value,
@@ -213,7 +213,7 @@ impl Parser<'_> {
     }
 
     /// Parse a [`Value`] into a [`Literal`] expression.
-    fn value_from_pair(&self, pair: Pair<R>) -> Result<Expr> {
+    fn value_from_pair(&mut self, pair: Pair<R>) -> Result<Expr> {
         Ok(match pair.as_rule() {
             R::string => {
                 let string = pair.into_inner().next().ok_or(e(R::string))?;
@@ -223,8 +223,18 @@ impl Parser<'_> {
             R::boolean => Expr::from(Literal::from(pair.as_str() == "true")),
             R::integer => Expr::from(Literal::from(pair.as_str().parse::<i64>().unwrap())),
             R::float => Expr::from(Literal::from(pair.as_str().parse::<f64>().unwrap())),
+            R::array => self.array_from_pair(pair)?,
             _ => return Err(e(R::value)),
         })
+    }
+
+    fn array_from_pair(&mut self, pair: Pair<R>) -> Result<Expr> {
+        let expressions = pair
+            .into_inner()
+            .map(|pair| self.expression_from_pair(pair))
+            .collect::<Result<Vec<_>>>()?;
+
+        Ok(Array::new(expressions).into())
     }
 
     /// Parse function call expressions.
