@@ -2,7 +2,11 @@ package metadata
 
 components: sinks: aws_sqs: components._aws & {
 	title:       "Amazon Simple Queue Service (SQS)"
-	description: "[Amazon Simple Queue Service (SQS)](\(urls.aws_sqs)) is a fully managed message queuing service that enables you to decouple and scale microservices, distributed systems, and serverless applications."
+	description: """
+		[Amazon Simple Queue Service (SQS)](\(urls.aws_sqs)) is a fully managed message queuing
+		service that enables you to decouple and scale microservices, distributed systems, and
+		serverless applications.
+		"""
 
 	classes: {
 		commonly_used: false
@@ -83,9 +87,12 @@ components: sinks: aws_sqs: components._aws & {
 			}
 		}
 		message_group_id: {
-			common:      false
-			description: "The tag that specifies that a message belongs to a specific message group. Can be applied only to FIFO queues."
-			required:    false
+			common: false
+			description: """
+				The tag that specifies that a message belongs to a specific message group. This
+				can only be applied to first-in/first-out (FIFO) queues.
+				"""
+			required: false
 			warnings: []
 			type: string: {
 				default: null

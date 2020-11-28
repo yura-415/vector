@@ -2,7 +2,12 @@ package metadata
 
 components: sinks: aws_kinesis_streams: components._aws & {
 	title:       "AWS Kinesis Data Streams"
-	description: "[Amazon Kinesis Data Streams](\(urls.aws_kinesis_streams)) is a scalable and durable real-time data streaming service that can continuously capture gigabytes of data per second from hundreds of thousands of sources. Making it an excellent candidate for streaming logs and metrics data."
+	description: """
+		[Amazon Kinesis Data Streams](\(urls.aws_kinesis_streams)) is a scalable and durable
+		real-time data streaming service that can continuously capture gigabytes of data per second
+		from hundreds of thousands of sources, making it an excellent candidate for streaming logs
+		and metrics data.
+		"""
 
 	classes: {
 		commonly_used: false
@@ -92,7 +97,10 @@ components: sinks: aws_kinesis_streams: components._aws & {
 			}
 		}
 		stream_name: {
-			description: "The [stream name](\(urls.aws_cloudwatch_logs_stream_name)) of the target Kinesis Logs stream."
+			description: """
+				The [stream name](\(urls.aws_cloudwatch_logs_stream_name)) of the target Kinesis
+				Logs stream.
+				"""
 			required:    true
 			warnings: []
 			type: string: {
@@ -110,38 +118,39 @@ components: sinks: aws_kinesis_streams: components._aws & {
 		partitioning: {
 			title: "Partitioning"
 			body:  """
-				By default, Vector issues random 16 byte values for each
-				[Kinesis record's partition key](\(urls.aws_kinesis_partition_key)), evenly
-				distributing records across your Kinesis partitions. Depending on your use case
-				this might not be sufficient since random distribution does not preserve order.
-				To override this, you can supply the `partition_key_field` option. This option
-				presents an alternate field on your event to use as the partition key value instead.
-				This is useful if you have a field already on your event, and it also pairs
-				nicely with the [`add_fields` transform][docs.transforms.add_fields].
+				By default, Vector issues random 16-byte values for each [Kinesis record's partition
+				key](\(urls.aws_kinesis_partition_key)), evenly distributing records across your
+				Kinesis partitions. Depending on your use case, this may not be sufficient since
+				random distribution does not preserve order. To override this, supply the
+				[`partition_key_field`](#partition_key_field) option. This option enables you to
+				specify a field on your event to use as the partition key value rather than allowing
+				the partition to be chosen randomly. This is useful if your events have a field
+				that's a good candidate for a [partition
+				key](\(urls.aws_kinesis_streams_partition_key)). If your events don't have such a
+				field, you can add one one using the [`add_fields`][docs.transforms.add_fields]
+				transform.
 				"""
 			sub_sections: [
 				{
 					title: "Missing partition keys"
 					body: """
-						Kenesis requires a value for the partition key and therefore if the key is
-						missing or the value is blank the event will be dropped and a
-						[`warning` level log event][docs.monitoring#logs] will be logged. As such,
-						the field specified in the `partition_key_field` option should always contain
-						a value.
+						Kinesis requires a value for the partition key. If the key is missing or the
+						value is blank, the event is dropped and a [`warning`-level log
+						event][docs.monitoring#logs] is logged. The field specified using the
+						[`partition_key_field`](#partition_key_field) option should thus always
+						contain a value.
 						"""
 				},
 				{
 					title: "Partition keys that exceed 256 characters"
 					body: """
-						If the value provided exceeds the maximum allowed length of 256 characters
-						Vector will slice the value and use the first 256 characters.
+						If the value provided exceeds the maximum allowed length of 256 characters,
+						Vector slices the value and uses the first 256 characters.
 						"""
 				},
 				{
 					title: "Non-string partition keys"
-					body: """
-						Vector will coerce the value into a string.
-						"""
+					body:  "Vector coerces the value into a string."
 				},
 			]
 		}

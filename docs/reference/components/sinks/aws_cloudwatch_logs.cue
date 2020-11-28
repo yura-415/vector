@@ -84,18 +84,29 @@ components: sinks: aws_cloudwatch_logs: components._aws & {
 	configuration: {
 		create_missing_group: {
 			common:      true
-			description: "Dynamically create a [log group](\(urls.aws_cloudwatch_logs_group_name)) if it does not already exist. This will ignore `create_missing_stream` directly after creating the group and will create the first stream."
+			description: """
+				Dynamically creates a [log group](\(urls.aws_cloudwatch_logs_group_name)) if it
+				doesn't already exist. This ignores
+				[`create_missing_stream`](#create_missing_stream) directly after creating the group
+				and creates the first stream.
+				"""
 			required:    false
 			type: bool: default: true
 		}
 		create_missing_stream: {
 			common:      true
-			description: "Dynamically create a [log stream](\(urls.aws_cloudwatch_logs_stream_name)) if it does not already exist."
+			description: """
+				Dynamically create a [log stream](\(urls.aws_cloudwatch_logs_stream_name)) if it
+				doesn't already exist.
+				"""
 			required:    false
 			type: bool: default: true
 		}
 		group_name: {
-			description: "The [group name](\(urls.aws_cloudwatch_logs_group_name)) of the target CloudWatch Logs stream."
+			description: """
+				The [group name](\(urls.aws_cloudwatch_logs_group_name)) of the target CloudWatch
+				Logs stream.
+				"""
 			required:    true
 			type: string: {
 				examples: ["group-name", "{{ file }}"]
@@ -103,7 +114,10 @@ components: sinks: aws_cloudwatch_logs: components._aws & {
 			}
 		}
 		stream_name: {
-			description: "The [stream name](\(urls.aws_cloudwatch_logs_stream_name)) of the target CloudWatch Logs stream."
+			description: """
+				The [stream name](\(urls.aws_cloudwatch_logs_stream_name)) of the target CloudWatch
+				Logs stream.
+				"""
 			required:    true
 			type: string: {
 				examples: ["{{ host }}", "%Y-%m-%d", "stream-name"]

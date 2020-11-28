@@ -63,24 +63,23 @@ components: sinks: aws_cloudwatch_metrics: components._aws & {
 		requirements: []
 		warnings: [
 			"""
-				Gauge values are persisted between flushes. On Vector start up each
-				gauge is assumed to have zero, 0.0, value, that can be updated
-				explicitly by the consequent absolute, not delta, gauge observation,
-				or by delta increments/decrements. Delta gauges are considered an
-				advanced feature useful in a distributed setting, however they
-				should be used with care.
+				Gauge values are persisted between flushes. When Vector starts up, each gauge is
+				assumed to have a value of zero (0.0). That value can be updated explicitly either
+				by the subsequent absolute (not delta) gauge observation or by delta
+				increments/decrements. Delta gauges are considered an advanced feature that's
+				mostly useful in distributed settings and should be used with due care.
 				""",
 		]
 		notices: [
 			"""
-				CloudWatch Metrics types are organized not by their semantics, but
-				by storage properties:
+				CloudWatch Metrics types are organized not by their semantics but rather by their
+				storage properties:
 
-				* Statistic Sets
-				* Data Points
+				* Statistic sets
+				* Data points
 
-				In Vector only the latter is used to allow lossless statistics
-				calculations on CloudWatch side.
+				In Vector, only the latter is used to allow lossless statistics calculations on the
+				CloudWatch side.
 				""",
 		]
 	}
@@ -88,10 +87,10 @@ components: sinks: aws_cloudwatch_metrics: components._aws & {
 	configuration: {
 		default_namespace: {
 			description: """
-				A [namespace](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Namespace) that will isolate different metrics from each other.
-				Used as a namespace for metrics that don't have it.
+				A [namespace](\(urls.aws_cloudwatch_namespace)) that will isolate different metrics
+				from each other. Used as a namespace for metrics that don't have it.
 				"""
-			required: true
+			required:    true
 			warnings: []
 			type: string: {
 				examples: ["service"]

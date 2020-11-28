@@ -319,7 +319,7 @@ components: sources: file: {
 				as there is more data to read. Only once it hits the end will it
 				then move on to read from younger files.
 
-				Whether or not to use the oldest_first flag depends on the
+				Whether to use the oldest_first flag depends on the
 				organization of the logs you're configuring Vector to tail. If your
 				`include` option contains multiple independent logical log streams
 				(e.g. Nginx's access.log and error.log, or logs from multiple

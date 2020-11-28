@@ -2,7 +2,12 @@ package metadata
 
 components: sinks: gcp_cloud_storage: {
 	title:       "GCP Cloud Storage (GCS)"
-	description: "[Google Cloud Storage][urls.gcp_cloud_storage] is a RESTful online file storage web service for storing and accessing data on Google Cloud Platform infrastructure. The service combines the performance and scalability of Google's cloud with advanced security and sharing capabilities. This makes it a prime candidate for log data."
+	description: """
+		[Google Cloud Storage](\(urls.gcp_cloud_storage)) is a RESTful online file storage web
+		service for storing and accessing data on Google Cloud Platform infrastructure. The service
+		combines the performance and scalability of Google's cloud with advanced security and
+		sharing capabilities. This makes it a prime candidate for log data.
+		"""
 
 	classes: {
 		commonly_used: true
@@ -90,18 +95,41 @@ components: sinks: gcp_cloud_storage: {
 		acl: {
 			category:    "ACL"
 			common:      false
-			description: "Predefined ACL to apply to the created objects. For more information, see [Predefined ACLs][urls.gcs_predefined_acl]. If this is not set, GCS will apply a default ACL when the object is created."
+			description: """
+				Predefined ACL to apply to the created objects. For more information, see
+				[Predefined ACLs](\(urls.gcs_predefined_acl)). If this is not set, GCS applies a
+				default ACL when the object is created.
+				"""
 			required:    false
 			warnings: []
 			type: string: {
 				default: null
 				enum: {
-					"authenticated-read":        "Gives the bucket or object owner OWNER permission, and gives all authenticated Google account holders READER permission."
-					"bucket-owner-full-control": "Gives the object and bucket owners OWNER permission."
-					"bucket-owner-read":         "Gives the object owner OWNER permission, and gives the bucket owner READER permission."
-					"private":                   "Gives the bucket or object owner OWNER permission for a bucket or object."
-					"project-private":           "Gives permission to the project team based on their roles. Anyone who is part of the team has READER permission. Project owners and project editors have OWNER permission. This the default."
-					"public-read":               "Gives the bucket or object owner OWNER permission, and gives all users, both authenticated and anonymous, READER permission. When you apply this to an object, anyone on the Internet can read the object without authenticating."
+					"authenticated-read": """
+						Gives the bucket or object owner `OWNER` permissions and gives all
+						authenticated Google account holders `READER` permissions.
+						"""
+					"bucket-owner-full-control": """
+						Gives the object and bucket owners `OWNER` permissions.
+						"""
+					"bucket-owner-read": """
+						Gives the object owner `OWNER` permissions and gives the bucket owner
+						`READER` permissions.
+						"""
+					"private": """
+						Gives the bucket or object owner `OWNER` permissions for a bucket or object.
+						"""
+					"project-private": """
+						Gives permission to the project team based on their roles. Anyone who is
+						a member of the team has `READER` permissions while project owners and
+						project editors have `OWNER` permissions. This the default.
+						"""
+					"public-read": """
+						Gives the bucket or object owner `OWNER` permissions and gives all users,
+						both authenticated and anonymous, `READER` permissions. When you apply this
+						to an object, anyone on the Internet can read the object without
+						authenticating.
+						"""
 				}
 			}
 		}
@@ -114,10 +142,17 @@ components: sinks: gcp_cloud_storage: {
 			}
 		}
 		credentials_path: {
-			category:    "Auth"
-			common:      true
-			description: "The filename for a Google Cloud service account credentials JSON file used to authenticate access to the Cloud Storage API. If this is unset, Vector checks the `GOOGLE_APPLICATION_CREDENTIALS` environment variable for a filename.\n\nIf no filename is named, Vector will attempt to fetch an instance service account for the compute instance the program is running on. If Vector is not running on a GCE instance, you must define a credentials file as above."
-			required:    false
+			category: "Auth"
+			common:   true
+			description: """
+				The filename for a Google Cloud service account credentials JSON file used to
+				authenticate access to the Cloud Storage API. If this is unset, Vector checks the
+				`GOOGLE_APPLICATION_CREDENTIALS` environment variable for a filename. If no filename
+				is named, Vector attempts to fetch an instance service account for the compute
+				instance the program is running on. If Vector is not running on a GCE instance,
+				you must define a credentials file as above.
+				"""
+			required: false
 			warnings: []
 			type: string: {
 				default: null
@@ -125,10 +160,13 @@ components: sinks: gcp_cloud_storage: {
 			}
 		}
 		filename_append_uuid: {
-			category:    "File Naming"
-			common:      false
-			description: "Whether or not to append a UUID v4 token to the end of the file. This ensures there are no name collisions high volume use cases."
-			required:    false
+			category: "File Naming"
+			common:   false
+			description: """
+				Whether to append a UUID v4 token to the end of the file. This ensures that there
+				are no name collisions, which can be useful in high-volume scenarios.
+				"""
+			required: false
 			warnings: []
 			type: bool: default: true
 		}
@@ -145,7 +183,10 @@ components: sinks: gcp_cloud_storage: {
 		filename_time_format: {
 			category:    "File Naming"
 			common:      false
-			description: "The format of the resulting object file name. [`strftime` specifiers][urls.strptime_specifiers] are supported."
+			description: """
+				The format of the resulting object file name. [`strftime`
+				specifiers](\(urls.strptime_specifiers)) are supported.
+				"""
 			required:    false
 			warnings: []
 			type: string: {
@@ -153,20 +194,32 @@ components: sinks: gcp_cloud_storage: {
 			}
 		}
 		key_prefix: {
-			category:    "File Naming"
-			common:      true
-			description: "A prefix to apply to all object key names. This should be used to partition your objects, and it's important to end this value with a `/` if you want this to be the root GCS \"folder\"."
-			required:    false
+			category: "File Naming"
+			common:   true
+			description: """
+				A prefix to apply to all object key names. This should be used to partition your
+				objects and it's important that you end this value with a trailing slash (`/`) if
+				you want this to be the root GCS \"folder\".
+				"""
+			required: false
 			warnings: []
 			type: string: {
 				default: "date=%F/"
-				examples: ["date=%F/", "date=%F/hour=%H/", "year=%Y/month=%m/day=%d/", "application_id={{ application_id }}/date=%F/"]
+				examples: [
+					"date=%F/",
+					"date=%F/hour=%H/",
+					"year=%Y/month=%m/day=%d/",
+					"application_id={{ application_id }}/date=%F/",
+				]
 				templateable: true
 			}
 		}
 		metadata: {
 			common:      false
-			description: "The set of metadata `key:value` pairs for the created objects. See the [GCS custom metadata][urls.gcs_custom_metadata] documentation for more details."
+			description: """
+				The set of metadata `key:value` pairs for the created objects. See the [GCS custom
+				metadata](\(urls.gcs_custom_metadata)) documentation for more details.
+				"""
 			required:    false
 			warnings: []
 			type: string: {
@@ -177,16 +230,31 @@ components: sinks: gcp_cloud_storage: {
 		storage_class: {
 			category:    "Storage"
 			common:      false
-			description: "The storage class for the created objects. See [the GCP storage classes][urls.gcs_storage_classes] for more details."
+			description: """
+				The storage class for the created objects. See [the GCP storage
+				classes](\(urls.gcs_storage_classes)) for more details.
+				"""
 			required:    false
 			warnings: []
 			type: string: {
 				default: null
 				enum: {
-					STANDARD: "Standard Storage is best for data that is frequently accessed and/or stored for only brief periods of time. This is the default."
-					NEARLINE: "Nearline Storage is a low-cost, highly durable storage service for storing infrequently accessed data."
-					COLDLINE: "Coldline Storage is a very-low-cost, highly durable storage service for storing infrequently accessed data."
-					ARCHIVE:  "Archive Storage is the lowest-cost, highly durable storage service for data archiving, online backup, and disaster recovery."
+					STANDARD: """
+						Standard Storage is best for data that is frequently accessed and/or stored
+						for only brief periods of time. This is the default.
+						"""
+					NEARLINE: """
+						Nearline Storage is a low-cost, highly durable storage service for storing
+						infrequently accessed data.
+						"""
+					COLDLINE: """
+						Coldline Storage is a very-low-cost, highly durable storage service for
+						storing infrequently accessed data.
+						"""
+					ARCHIVE: """
+						Archive Storage is the lowest-cost, highly durable storage service for data
+						archiving, online backup, and disaster recovery.
+						"""
 				}
 			}
 		}
@@ -201,17 +269,17 @@ components: sinks: gcp_cloud_storage: {
 		object_access_control_list: {
 			title: "Object access control list (ACL)"
 			body:  """
-					GCP Cloud Storage supports access control lists (ACL) for buckets and
-					objects. In the context of Vector, only object ACLs are relevant (Vector
-					does not create or modify buckets). You can set the object level ACL by
-					using the `acl` option, which allows you to set one of the [predefined
+					GCP Cloud Storage supports access control lists (ACL) for buckets and objects.
+					In the context of Vector, only object ACLs are relevant, as Vector does not
+					create or modify buckets. You can set the object-level ACL using the `acl`
+					option, which allows you to set one of the [predefined
 					ACLs](\(urls.gcs_predefined_acl)) on each created object.
 					"""
 		}
 		object_naming: {
 			title: "Object Naming"
-			body: """
-				By default, Vector will name your GCS objects in the following format:
+			body:  """
+				By default, Vector names your GCS objects using the following format:
 
 				<Tabs
 				  block={true}
@@ -250,12 +318,13 @@ components: sinks: gcp_cloud_storage: {
 				</TabItem>
 				</Tabs>
 
-				Vector appends a [UUIDV4][urls.uuidv4] token to ensure there are no name
-				conflicts in the unlikely event 2 Vector instances are writing data at the same
-				time.
+				Vector appends a [UUIDV4](\(urls.uuidv4)) token to ensure there are no name
+				conflicts in the unlikely event that two Vector instances are writing data at the
+				same time.
 
-				You can control the resulting name via the `key_prefix`, `filename_time_format`,
-				and `filename_append_uuid` options.
+				You can control the resulting name via the [`key_prefix`](#key_prefix),
+				[`filename_time_format`](#filename_time_format), and
+				[`filename_append_uuid`](filename_append_uuid) options.
 				"""
 		}
 
@@ -263,19 +332,19 @@ components: sinks: gcp_cloud_storage: {
 			title: "Storage Class"
 			body:  """
 					GCS offers [storage classes](\(urls.gcs_storage_classes)). You can apply
-					defaults, and rules, at the bucket level or set the storage class at the
-					object level. In the context of Vector only the object level is relevant
-					(Vector does not create or modify buckets). You can set the storage
-					class via the `storage_class` option.
+					defaults and rules at the bucket level or set the storage class at the
+					object level. In the context of Vector, only the object level is relevant, as
+					Vector does not create or modify buckets. You can set the storage class via the
+					[`storage_class`](#storage_class) option.
 					"""
 		}
 
 		tags_and_metadata: {
 			title: "Tags & Metadata"
 			body:  """
-					Vector supports adding [custom metadata](\(urls.gcs_custom_metadata)) to
-					created objects. These metadata items are a way of associating extra
-					data items with the object that are not part of the uploaded data.
+					Vector supports adding [custom metadata](\(urls.gcs_custom_metadata)) to created
+					objects. These metadata items are a way of associating extra data items with the
+					object that are not part of the uploaded data.
 					"""
 		}
 	}

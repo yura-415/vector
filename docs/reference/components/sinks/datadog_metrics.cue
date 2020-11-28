@@ -55,8 +55,8 @@ components: sinks: datadog_metrics: {
 		default_namespace: {
 			common: true
 			description: """
-				Used as a namespace for metrics that don't have it.
-				A namespace will be prefixed to a metric's name.
+				Used as a namespace for metrics that don't have one. A namespace is prefixed to a
+				metric's name.
 				"""
 			required: false
 			warnings: []

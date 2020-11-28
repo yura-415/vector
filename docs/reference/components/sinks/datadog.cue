@@ -1,7 +1,11 @@
 package metadata
 
 components: sinks: _datadog: {
-	description: "[Datadog](\(urls.datadog)) is a monitoring service for cloud-scale applications, providing monitoring of servers, databases, tools, and services, through a SaaS-based data analytics platform."
+	description: """
+		[Datadog](\(urls.datadog)) is a monitoring service for cloud-scale applications, providing
+		monitoring of servers, databases, tools, and services through a SaaS-based data analytics
+		platform.
+		"""
 
 	classes: {
 		commonly_used: false
@@ -28,8 +32,10 @@ components: sinks: _datadog: {
 
 	configuration: {
 		api_key: {
-			description: "Datadog [API key](https://docs.datadoghq.com/api/?lang=bash#authentication)"
-			required:    true
+			description: """
+				Datadog [API key](https://docs.datadoghq.com/api/?lang=bash#authentication).
+				"""
+			required: true
 			warnings: []
 			type: string: {
 				examples: ["${DATADOG_API_KEY_ENV_VAR}", "ef8d5de700e7989468166c40fc8a0ccd"]

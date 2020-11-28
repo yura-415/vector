@@ -52,9 +52,12 @@ components: sinks: file: {
 
 	configuration: {
 		idle_timeout_secs: {
-			common:      false
-			description: "The amount of time a file can be idle  and stay open. After not receiving any events for this timeout, the file will be flushed and closed.\n"
-			required:    false
+			common: false
+			description: """
+				The amount of time a file can be idle and stay open. If no events are received
+				within this duration, the file is flushed and closed.
+				"""
+			required: false
 			warnings: []
 			type: uint: {
 				default: 30
@@ -66,7 +69,10 @@ components: sinks: file: {
 			required:    true
 			warnings: []
 			type: string: {
-				examples: ["/tmp/vector-%Y-%m-%d.log", "/tmp/application-{{ application_id }}-%Y-%m-%d.log"]
+				examples: [
+					"/tmp/vector-%Y-%m-%d.log",
+					"/tmp/application-{{ application_id }}-%Y-%m-%d.log",
+				]
 				templateable: true
 			}
 		}
@@ -79,12 +85,11 @@ components: sinks: file: {
 
 	how_it_works: {
 		dir_and_file_creation: {
-			title: "File & Directory Creation"
+			title: "File and Directory Creation"
 			body: """
-				Vector will attempt to create the entire directory structure
-				and the file when emitting events to the file sink. This
-				requires that the Vector agent have the correct permissions
-				to create and write to files in the specified directories.
+				Vector attempts to create both the file and the entire directory structure when
+				emitting events to the `file` sink. The Vector agent thus needs to have the correct
+				permissions to create and write to files in the specified directories.
 				"""
 		}
 	}

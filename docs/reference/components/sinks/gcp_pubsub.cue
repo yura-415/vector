@@ -2,7 +2,11 @@ package metadata
 
 components: sinks: gcp_pubsub: {
 	title:       "GCP PubSub"
-	description: "[GCP Pub/Sub][urls.gcp_pubsub] is a fully-managed real-time messaging service that allows you to send and receive messages between independent applications on the Google Cloud Platform."
+	description: """
+		[GCP Pub/Sub](\(urls.gcp_pubsub)) is a fully managed real-time messaging service that allows
+		you to send and receive messages between independent applications on the Google Cloud
+		Platform.
+		"""
 
 	classes: {
 		commonly_used: true
@@ -80,7 +84,11 @@ components: sinks: gcp_pubsub: {
 	configuration: {
 		api_key: {
 			common:      false
-			description: "A [Google Cloud API key][urls.gcp_authentication_api_key] used to authenticate access the pubsub project and topic. Either this or `credentials_path` must be set."
+			description: """
+				A [Google Cloud API key](\(urls.gcp_authentication_api_key)) used to authenticate
+				access to the PubSub project and topic. You must set either this or
+				[`credentials_path`](#credentials_path) must be set.
+				"""
 			required:    false
 			warnings: []
 			type: string: {
@@ -89,9 +97,16 @@ components: sinks: gcp_pubsub: {
 			}
 		}
 		credentials_path: {
-			common:      true
-			description: "The filename for a Google Cloud service account credentials JSON file used to authenticate access to the pubsub project and topic. If this is unset, Vector checks the `GOOGLE_APPLICATION_CREDENTIALS` environment variable for a filename.\n\nIf no filename is named, Vector will attempt to fetch an instance service account for the compute instance the program is running on. If Vector is not running on a GCE instance, you must define a credentials file as above."
-			required:    false
+			common: true
+			description: """
+				The filename for a Google Cloud service account credentials JSON file used to
+				authenticate access to the PubSub project and topic. If this is unset, Vector checks
+				the `GOOGLE_APPLICATION_CREDENTIALS` environment variable for a filename If no
+				filename is named, Vector attempts to fetch an instance service account for the
+				compute instance the program is running on. If Vector is not running on a GCE
+				instance, you must define a credentials file as above.
+				"""
+			required: false
 			warnings: []
 			type: string: {
 				default: null
