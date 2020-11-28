@@ -4,8 +4,8 @@ installation: operating_systems: {
 	rhel: {
 		title:       "RHEL"
 		description: """
-			[Red Hat Enterprise Linux](\(urls.rhel)) is a Linux distribution
-			developed by Red Hat for the commercial market.
+			[Red Hat Enterprise Linux](\(urls.rhel)) is a Linux distribution developed by Red Hat
+			for the commercial market.
 			"""
 
 		interfaces: [

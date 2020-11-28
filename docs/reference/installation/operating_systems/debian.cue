@@ -4,9 +4,9 @@ installation: operating_systems: {
 	debian: {
 		title:       "Debian"
 		description: """
-			[Debian](\(urls.debian))), also known as Debian GNU/Linux, is a Linux
-			distribution composed of free and open-source software,
-			developed by the community-supported Debian Project.
+			[Debian](\(urls.debian))), also known as Debian GNU/Linux, is a Linux distribution
+			composed of free and open-source software, developed by the community-supported Debian
+			Project.
 			"""
 
 		interfaces: [

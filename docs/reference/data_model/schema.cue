@@ -4,15 +4,13 @@ data_model: schema: {
 	log: {
 		common: true
 		description: """
-			A Vector log event is a structured representation of a
-			point-in-time event. It contains an arbitrary set of
-			fields that describe the event.
+			A log event in Vector is a structured representation of a point-in-time event. It
+			contains an arbitrary set of fields that describe the event.
 
-			A key tenet of Vector is to remain schema neutral. This
-			ensures that Vector can work with any schema, supporting
-			legacy and future schemas as your needs evolve. Vector
-			does not require any specific fields, and each compoennt
-			will document the fields it provides.
+			A key tenet of Vector is that it remain schema neutral. This ensures that Vector can
+			work with any schema, supporting legacy and future schemas as your needs evolve. Vector
+			does not require any specific fields, and each component documents the fields it
+			provides.
 			"""
 		required: false
 		warnings: []
@@ -27,9 +25,11 @@ data_model: schema: {
 			]
 			options: {
 				"*": {
-					common:      true
-					description: "An arbitrary set of key/value pairs that can be infinitely nested."
-					required:    false
+					common: true
+					description: """
+						An arbitrary set of key/value pairs that can be infinitely nested.
+						"""
+					required: false
 					type: "*": {}
 				}
 			}
@@ -37,19 +37,17 @@ data_model: schema: {
 	}
 
 	metric: {
-		common: true
+		common:      true
 		description: """
-			A Vector metric event represents a numerical operation
-			performed on a time series. Unlike other tools, metrics
-			in Vector are first class citizens, they are not represented
-			as structured logs. This makes them interoperable with
-			various metrics services without the need for any
-			transformation.
+			A metric event in Vector represents a numerical operation performed on a time series.
+			Unlike in other tools, metrics in Vector are first-class citizens, and they are not
+			represented as structured logs. This makes them interoperable with various metrics
+			services without the need for any data transformation.
 
-			Vector's metric data model is heavily inspried by Prometheus,
-			Statsd, and Datadog.
+			Vector's metric data model is heavily inspried by [Prometheus](\(urls.prometheus)),
+			[Statsd](\(urls.statsd)), and [Datadog](\(urls.datadog)).
 			"""
-		required: false
+		required:    false
 		warnings: []
 		type: object: {
 			examples: []
@@ -57,9 +55,8 @@ data_model: schema: {
 				counter: {
 					common: true
 					description: """
-						A single value that can only be incremented
-						or reset to zero value, it cannot be
-						decremented.
+						A single value that can only be incremented or reset to zero value and thus
+						cannot be decremented.
 						"""
 					required: false
 					warnings: []
@@ -67,8 +64,10 @@ data_model: schema: {
 						examples: []
 						options: {
 							value: {
-								description: "The value to increment the counter by. Can only be positive."
-								required:    true
+								description: """
+									The value to increment the counter by. Can only be positive.
+									"""
+								required: true
 								warnings: []
 								type: float: {
 									examples: [1.0, 10.0, 500.0]
@@ -81,9 +80,8 @@ data_model: schema: {
 				distribution: {
 					common: true
 					description: """
-						A distribution represents a distribution of
-						sampled values. It is used with services
-						that support global histograms and summaries.
+						Represents a distribution of sampled values. It is used with services that
+						support global histograms and summaries.
 						"""
 					required: false
 					warnings: []
@@ -121,12 +119,10 @@ data_model: schema: {
 				gauge: {
 					common: true
 					description: """
-						A gauge represents a point-in-time value
-						that can increase and decrease. Vector's
-						internal gauge type represents changes to
-						that value. Gauges should be used to track
-						fluctuations in values, like current memory
-						or CPU usage.
+						A gauge represents a point-in-time value that can increase and decrease.
+						Vector's internal gauge type represents changes to that value. Gauges should
+						be used to track fluctuations in values, such as current memory or CPU
+						usage.
 						"""
 					required: false
 					warnings: []
@@ -148,11 +144,9 @@ data_model: schema: {
 				histogram: {
 					common: true
 					description: """
-						Also called a "timer". A histogram samples
-						observations (usually things like request
-						durations or response sizes) and counts them
-						in configurable buckets. It also provides a
-						sum of all observed values.
+						Also called a \"timer,\" a histogram samples observations (usually things
+						like request durations or response sizes) and counts them in configurable
+						buckets. A histogram also provides a sum of all observed values.
 						"""
 					required: false
 					warnings: []
@@ -166,8 +160,10 @@ data_model: schema: {
 								type: array: items: type: float: examples: [1.0, 2.0, 5.0, 10.0, 25.0]
 							}
 							count: {
-								description: "The total number of values contained within the histogram."
-								required:    true
+								description: """
+									The total number of values contained within the histogram.
+									"""
+								required: true
 								warnings: []
 								type: uint: {
 									examples: [1, 10, 25, 100]
@@ -201,8 +197,14 @@ data_model: schema: {
 					warnings: []
 					type: string: {
 						enum: {
-							absolute:    "The metric value is absolute and replaces values as it is received downstream."
-							incremental: "The metric value increments a cumulated value as it is received downstream."
+							absolute: """
+								The metric value is absolute and replaces values as it is received
+								downstream.
+								"""
+							incremental: """
+								The metric value increments a cumulated value as it is received
+								downstream.
+								"""
 						}
 					}
 				}
@@ -217,8 +219,11 @@ data_model: schema: {
 				}
 
 				"namespace": {
-					description: "The metric namespace. Depending on the service, this will prepend the name or use native namespacing facilities."
-					required:    true
+					description: """
+						The metric namespace. Depending on the service, this will prepend the name
+						or use native namespacing facilities.
+						"""
+					required: true
 					warnings: []
 					type: string: {
 						examples: ["host", "apache", "nginx"]
@@ -248,13 +253,10 @@ data_model: schema: {
 				summary: {
 					common: true
 					description: """
-						Similar to a histogram, a summary samples
-						observations (usually things like request
-						durations and response sizes). While it also
-						provides a total count of observations and a
-						sum of all observed values, it calculates
-						configurable quantiles over a sliding time
-						window.
+						Similar to a histogram, a summary samples observations (usually things like
+						request durations and response sizes). While a summary provides a total
+						count of observations and a sum of all observed values, it also calculates
+						configurable quantiles over a sliding time window.
 						"""
 					required: false
 					warnings: []
@@ -262,8 +264,10 @@ data_model: schema: {
 						examples: []
 						options: {
 							count: {
-								description: "The total number of values contained within the summary."
-								required:    true
+								description: """
+									The total number of values contained within the summary.
+									"""
+								required: true
 								warnings: []
 								type: uint: {
 									examples: [54]
@@ -271,24 +275,32 @@ data_model: schema: {
 								}
 							}
 							quantiles: {
-								description: "The quantiles contained within the summary, where 0 ≤ quantile ≤ 1."
-								required:    true
+								description: """
+									The quantiles contained within the summary, where 0 ≤ quantile
+									≤ 1.
+									"""
+								required: true
 								warnings: []
 								type: array: {
 									items: type: float: examples: [0.1, 0.5, 0.75, 1.0]
 								}
 							}
 							sum: {
-								description: "The sum of all values contained within the histogram."
-								required:    true
+								description: """
+									The sum of all values contained within the histogram.
+									"""
+								required: true
 								warnings: []
 								type: float: {
 									examples: [1.0, 10.0, 25.0, 100.0]
 								}
 							}
 							values: {
-								description: "The values contained within the summary that align with the `quantiles`."
-								required:    true
+								description: """
+									The values contained within the summary that align with the
+									`quantiles`.
+									"""
+								required: true
 								warnings: []
 								type: array: {
 									items: type: float: examples: [2.1, 4.68, 23.02, 120.1]
@@ -299,8 +311,10 @@ data_model: schema: {
 				}
 
 				tags: {
-					description: "The metric tags. Key/value pairs, nesting is not allowed."
-					required:    true
+					description: """
+						The metric tags, structured as key/value pairs. Nesting is not allowed.
+						"""
+					required: true
 					warnings: []
 					type: object: {
 						examples: [
@@ -312,7 +326,7 @@ data_model: schema: {
 						options: {
 							"*": {
 								common:      true
-								description: "Key/value pairs, nesting is not allowed."
+								description: "Key/value pairs. Nesting is not allowed."
 								required:    false
 								type: "*": {}
 							}
@@ -321,7 +335,7 @@ data_model: schema: {
 				}
 
 				"timestamp": {
-					description: "The metric timestamp; when the metric was created."
+					description: "The metric timestamp indicating when the metric was created."
 					required:    true
 					warnings: []
 					type: timestamp: {}

@@ -6,10 +6,9 @@ configuration: {
 	data_dir: {
 		common: false
 		description: """
-			The directory used for persisting Vector state, such
-			as on-disk buffers, file checkpoints, and more.
-			Please make sure the Vector project has write
-			permissions to this directory.
+			The directory used for persisting Vector state, such as on-disk buffers and file
+			checkpoints. Make sure that your Vector instance has write permissions to this
+			directory.
 			"""
 		required: false
 		type: string: {

@@ -4,9 +4,8 @@ installation: operating_systems: {
 	centos: {
 		title:       "CentOS"
 		description: """
-			[CentOS](\(urls.centos)) is a Linux distribution that is
-			functionally compatible with its upstream source, Red Hat Enterprise
-			Linux.
+			[CentOS](\(urls.centos)) is a Linux distribution that's functionally compatible with its
+			upstream source, [Red Hat Enterprise Linux (RHEL)](\(urls.rhel)).
 			"""
 
 		interfaces: [

@@ -3,9 +3,8 @@ package metadata
 installation: _interfaces: apt: {
 	title:       "Apt"
 	description: """
-		[Advanced Package Tool](\(urls.apt)), or APT, is a free package manager
-		that handles the installation and removal of software on Debian,
-		Ubuntu, and other Linux distributions.
+		[Advanced Package Tool](\(urls.apt)), or APT, is a free package manager that handles the
+		installation and removal of software on Debian, Ubuntu, and other Linux distributions.
 		"""
 
 	archs: ["x86_64", "ARM64", "ARMv7"]

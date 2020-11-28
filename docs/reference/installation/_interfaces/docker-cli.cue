@@ -3,9 +3,8 @@ package metadata
 installation: _interfaces: "docker-cli": {
 	title:       "Docker CLI"
 	description: """
-		The [Docker CLI](\(urls.docker_cli)) is the command line interface to
-		the Docker platform. It is used to download, start, and manage Docker
-		images.
+		The [Docker CLI](\(urls.docker_cli)) is the command-line interface to the Docker platform.
+		It's used to download, start, and manage Docker images.
 		"""
 
 	archs: ["x86_64", "ARM64"]
@@ -76,17 +75,16 @@ installation: _interfaces: "docker-cli": {
 	roles: {
 		agent: {
 			title:       "Agent"
-			description: #"""
-						The agent role is designed to collect all Docker data on
-						a single host. Vector runs in its own container
-						interfacing with the [Docker Engine API](\#(urls.docker_engine_api))
-						for log via the [`docker_logs` source](\#(urls.vector_docker_logs_source)) and
-						metrics via the [`host_metrics` source](\#(urls.vector_host_metrics_source)),
-						but it is recommended to adjust your pipeline as
-						necessary using Vector's [sources](\#(urls.vector_sources)),
-						[transforms](\#(urls.vector_transforms)), and
-						[sinks](\#(urls.vector_sinks)).
-						"""#
+			description: """
+				The agent role is designed to collect all Docker data on a single host. Vector runs
+				in its own container, interacting with the [Docker Engine
+				API](\(urls.docker_engine_api)) for logs via the
+				[`docker_logs`](\(urls.vector_docker_logs_source)) source and metrics via the
+				[`host_metrics`](\(urls.vector_host_metrics_source)) source, but we recommend that
+				you adjust your pipeline as necessary using Vector's
+				[sources](\(urls.vector_sources)), [transforms](\(urls.vector_transforms)), and
+				[sinks](\(urls.vector_sinks)).
+				"""
 
 			variables: config: sources: logs: type: "docker_logs"
 		}

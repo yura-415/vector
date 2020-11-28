@@ -4,8 +4,8 @@ installation: operating_systems: {
 	windows: {
 		title:       "Windows"
 		description: """
-			[Microsoft Windows](\(urls.windows)) is an operating system
-			developed and sold by Microsoft.
+			[Microsoft Windows](\(urls.windows)) is an operating system developed and sold by
+			Microsoft.
 			"""
 
 		interfaces: [

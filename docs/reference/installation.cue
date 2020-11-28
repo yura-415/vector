@@ -73,18 +73,15 @@ installation: close({
 						internal_metrics: type: components.sources.internal_metrics.type
 					}
 				}
-				description: #"""
-							The agent role is designed to collect all data on
-							a single host. Vector runs as a background process
-							and interfaces with a host-level APIs for data
-							collection. By default, Vector will collect logs
-							via Vector's [`file` source](\#(urls.vector_journald_source)) and
-							metrics via the [`host_metrics` source](\#(urls.vector_host_metrics_source)),
-							but it is recommended to adjust your pipeline as
-							necessary using Vector's [sources](\#(urls.vector_sources)),
-							[transforms](\#(urls.vector_transforms)), and
-							[sinks](\#(urls.vector_sinks)).
-							"""#
+				description: """
+					The agent role is designed to collect all data on a single host. Vector runs as
+					a background process and interacts with host-level APIs for data collection.
+					By default, Vector collects logs via the [`file`
+					source](\(urls.vector_file_source)) and metrics via the [`host_metrics`
+					source](\(urls.vector_host_metrics_source)), but we recommend that you adjust
+					your pipeline as necessary using Vector's [sources](\(urls.vector_sources)),
+					[transforms](\(urls.vector_transforms)), and [sinks](\(urls.vector_sinks)).
+					"""
 				title:       "Agent"
 			}
 			_file_sidecar: {
@@ -98,19 +95,16 @@ installation: close({
 						internal_metrics: type: components.sources.internal_metrics.type
 					}
 				}
-				description: #"""
-							The sidecar role is designed to collect data from
-							a single process on the same host. By default, we
-							recommend using the [`file` source](\#(urls.vector_file_source))
-							to tail the logs for that individual process, but
-							you could use the [`stdin` source](\#(urls.vector_stdin_source)),
-							[`socket` source](\#(urls.vector_socket_source)), or
-							[`http` source](\#(urls.vector_http_source)). We recommend
-							adjusting your pipeline as necessary using Vector's
-							[sources](\#(urls.vector_sources)),
-							[transforms](\#(urls.vector_transforms)), and
-							[sinks](\#(urls.vector_sinks)).
-							"""#
+				description: """
+					The sidecar role is designed to collect data from a single process on the same
+					host. We recommend using the [`file` source](\(urls.vector_file_source)) to
+					tail the logs for that individual process, but you can also use the
+					[`stdin`](\(urls.vector_stdin_source)),
+					[`socket`](\(urls.vector_socket_source)), or
+					[`http`](\(urls.vector_http_source)) source. We also recommend adjusting your
+					pipeline as necessary using Vector's [sources](\(urls.vector_sources)),
+					[transforms](\(urls.vector_transforms)), and [sinks](\(urls.vector_sinks)).
+					"""
 				title:       "Sidecar"
 			}
 			_journald_agent: {
@@ -121,19 +115,16 @@ installation: close({
 						internal_metrics: type: components.sources.internal_metrics.type
 					}
 				}
-				description: #"""
-							The agent role is designed to collect all data on
-							a single host. Vector runs as a background process
-							and interfaces with a host-level APIs for data
-							collection. By default, Vector will collect logs
-							from [Journald](\#(urls.journald)) via Vector's
-							[`journald` source](\#(urls.vector_journald_source)) and
-							metrics via the [`host_metrics` source](\#(urls.vector_host_metrics_source)),
-							but it is recommended to adjust your pipeline as
-							necessary using Vector's [sources](\#(urls.vector_sources)),
-							[transforms](\#(urls.vector_transforms)), and
-							[sinks](\#(urls.vector_sinks)).
-							"""#
+				description: """
+					The agent role is designed to collect all data on a single host. Vector runs as
+					a background process and interacts with host-level APIs for data collection.
+					By default, Vector collects logs from [Journald](\(urls.journald)) via Vector's
+					[`journald`](\(urls.vector_journald_source)) source and metrics via the
+					[`host_metrics`](\(urls.vector_host_metrics_source)) source, but we recommend
+					that you adjust your pipeline as necessary using Vector's
+					[sources](\(urls.vector_sources)), [transforms](\(urls.vector_transforms)), and
+					[sinks](\(urls.vector_sinks)).
+					"""
 				title:       "Agent"
 			}
 			_systemd_commands: {
@@ -150,18 +141,14 @@ installation: close({
 						internal_metrics: type: components.sources.internal_metrics.type
 					}
 				}
-				description: #"""
-							The aggregator role is designed to receive and
-							process data from multiple upstream agents.
-							Typically these are other Vector agents, but it
-							could be anything, including non-Vector agents.
-							By default, we recommend the [`vector` source](\#(urls.vector_source))
-							since it supports all data types, but it is
-							recommended to adjust your pipeline as necessary
-							using Vector's [sources](\#(urls.vector_sources)),
-							[transforms](\#(urls.vector_transforms)), and
-							[sinks](\#(urls.vector_sinks)).
-							"""#
+				description: """
+					The aggregator role is designed to receive and process data from multiple
+					upstream agents. These are typically other Vector agents but non-Vector agents
+					are also possible. We recommend using the [`vector`](\(urls.vector_source))
+					source since it supports all data types, but you should adjust your pipeline as
+					necessary using Vector's [sources](\(urls.vector_sources)),
+					[transforms](\(urls.vector_transforms)), and [sinks](\(urls.vector_sinks)).
+					"""
 				title:       "Aggregator"
 			}
 		}

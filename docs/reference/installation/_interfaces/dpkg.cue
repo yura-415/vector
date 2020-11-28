@@ -3,9 +3,9 @@ package metadata
 installation: _interfaces: dpkg: {
 	title:       "DPKG"
 	description: """
-		[Dpkg](\(urls.dpkg)) is the software that powers the package management
-		system in the Debian operating system and its derivatives. Dpkg is used
-		to install and manage software via `.deb` packages.
+		[Dpkg](\(urls.dpkg)) is the software that powers the package management system in the Debian
+		operating system and its derivatives. Dpkg is used to install and manage software via `.deb`
+		packages.
 		"""
 
 	archs: ["x86_64", "ARM64", "ARMv7"]

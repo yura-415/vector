@@ -3,9 +3,8 @@ package metadata
 installation: _interfaces: "helm3": {
 	title:       "Helm 3"
 	description: """
-		[Helm](\(urls.helm)) is a package manager for Kubernetes that
-		facilitates the deployment and management of applications and services
-		on Kubernetes clusters.
+		[Helm](\(urls.helm)) is a package manager for Kubernetes that facilitates the deployment and
+		management of applications and services on Kubernetes clusters.
 		"""
 
 	archs: ["x86_64", "ARM64"]
@@ -60,19 +59,15 @@ installation: _interfaces: "helm3": {
 	roles: {
 		agent: {
 			title:       "Agent"
-			description: #"""
-						The agent role is designed to collect all Kubernetes
-						log data on each Node. Vector runs as a
-						[DaemonSet](\#(urls.kubernetes_daemonset)) and tails
-						logs for the entire Pod, automatically enriching them
-						with Kubernetes metadata via the
-						[Kubernetes API](\#(urls.kubernetes_api)). Collection
-						is handled automatically, and it is intended for you to
-						adjust your pipeline as	necessary using Vector's
-						[sources](\#(urls.vector_sources)),
-						[transforms](\#(urls.vector_transforms)), and
-						[sinks](\#(urls.vector_sinks)).
-						"""#
+			description: """
+				The agent role is designed to collect all Kubernetes log data on each Node. Vector
+				runs as a [DaemonSet](\(urls.kubernetes_daemonset)) and tails logs for the entire
+				Pod, automatically enriching them with Kubernetes metadata fetched from the
+				[Kubernetes API](\(urls.kubernetes_api)). Collection is handled automatically,
+				enabling you to adjust your pipeline as	necessary using Vector's
+				[sources](\(urls.vector_sources)), [transforms](\(urls.vector_transforms)), and
+				[sinks](\(urls.vector_sinks)).
+				"""
 
 			commands: {
 				_chart_name:               "vector-agent"
