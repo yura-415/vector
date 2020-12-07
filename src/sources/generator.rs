@@ -189,7 +189,7 @@ mod tests {
     }
 
     #[test]
-    fn config_round_robin_items_not_empty() {
+    fn round_robin_config_items_not_empty() {
         let empty_items: Vec<String> = Vec::new();
 
         let errant_config = GeneratorConfig {
@@ -207,22 +207,24 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn round_robin_copies_lines() {
+    async fn round_robin_uses_provided_lines() {
         let message_key = log_schema().message_key();
         let mut rx = runit(
             r#"format = "round_robin"
-               items = ["one", "two"]
-               count = 1"#,
+               items = ["one", "two", "three", "four"]
+               count = 5"#,
         )
         .await;
 
-        for line in &["one", "two"] {
+        let lines = &["one", "two", "three", "four"];
+
+        for _ in 0..5 {
             let event = rx.poll().unwrap();
             match event {
                 Ready(Some(event)) => {
                     let log = event.as_log();
                     let message = log[&message_key].to_string_lossy();
-                    assert_eq!(message, *line);
+                    assert!(lines.contains(&&*message));
                 }
                 Ready(None) => panic!("Premature end of input"),
                 NotReady => panic!("Generator was not ready"),
@@ -237,7 +239,7 @@ mod tests {
         let mut rx = runit(
             r#"format = "round_robin"
                items = ["one", "two"]
-               count = 5"#,
+               count = 10"#,
         )
         .await;
 
@@ -254,17 +256,17 @@ mod tests {
             r#"format = "round_robin"
                items = ["one", "two"]
                sequence = true
-               count = 2"#,
+               count = 5"#,
         )
         .await;
 
-        for line in &["1 one", "2 two", "3 one", "4 two"] {
+        for n in 0..5 {
             let event = rx.poll().unwrap();
             match event {
                 Ready(Some(event)) => {
                     let log = event.as_log();
                     let message = log[&message_key].to_string_lossy();
-                    assert_eq!(message, *line);
+                    assert!(message.starts_with(&n.to_string()));
                 }
                 Ready(None) => panic!("Premature end of input"),
                 NotReady => panic!("Generator was not ready"),
@@ -279,12 +281,12 @@ mod tests {
         let mut rx = runit(
             r#"format = "round_robin"
                items = ["one", "two"]
-               count = 3
+               count = 10
                batch_interval = 1.0"#,
         )
         .await;
 
-        for _ in 0..6 {
+        for _ in 0..10 {
             assert!(matches!(rx.poll().unwrap(), Ready(Some(_))));
         }
         assert_eq!(rx.poll().unwrap(), Ready(None));
