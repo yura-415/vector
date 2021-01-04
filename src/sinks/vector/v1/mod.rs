@@ -1,7 +1,7 @@
 use crate::{
     config::{DataType, GenerateConfig, SinkConfig, SinkContext, SinkDescription},
     event::proto,
-    sinks::util::tcp::TcpSinkConfig,
+    sinks::{util::tcp::TcpSinkConfig, Healthcheck, VectorSink},
     tcp::TcpKeepaliveConfig,
     tls::TlsConfig,
     Event,
@@ -11,20 +11,20 @@ use prost::Message;
 use serde::{Deserialize, Serialize};
 use snafu::Snafu;
 
-#[derive(Deserialize, Serialize, Debug)]
-#[serde(deny_unknown_fields)]
-pub struct VectorSinkConfig {
-    pub address: String,
-    pub keepalive: Option<TcpKeepaliveConfig>,
-    pub tls: Option<TlsConfig>,
-}
-
 #[derive(Debug, Snafu)]
 enum BuildError {
     #[snafu(display("Missing host in address field"))]
     MissingHost,
     #[snafu(display("Missing port in address field"))]
     MissingPort,
+}
+
+#[derive(Deserialize, Serialize, Debug, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct VectorSinkConfig {
+    pub address: String,
+    pub keepalive: Option<TcpKeepaliveConfig>,
+    pub tls: Option<TlsConfig>,
 }
 
 inventory::submit! {
@@ -45,10 +45,7 @@ impl GenerateConfig for VectorSinkConfig {
 #[async_trait::async_trait]
 #[typetag::serde(name = "vector")]
 impl SinkConfig for VectorSinkConfig {
-    async fn build(
-        &self,
-        cx: SinkContext,
-    ) -> crate::Result<(super::VectorSink, super::Healthcheck)> {
+    async fn build(&self, cx: SinkContext) -> crate::Result<(VectorSink, Healthcheck)> {
         let sink_config =
             TcpSinkConfig::new(self.address.clone(), self.keepalive, self.tls.clone());
         sink_config.build(cx, encode_event)

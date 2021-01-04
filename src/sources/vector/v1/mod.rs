@@ -1,9 +1,12 @@
-use super::util::{SocketListenAddr, TcpSource};
 use crate::{
     config::{DataType, GenerateConfig, GlobalOptions, Resource, SourceConfig, SourceDescription},
     event::proto,
     internal_events::{VectorEventReceived, VectorProtoDecodeError},
     shutdown::ShutdownSignal,
+    sources::{
+        util::{SocketListenAddr, TcpSource},
+        Source,
+    },
     tcp::TcpKeepaliveConfig,
     tls::{MaybeTlsSettings, TlsConfig},
     Event, Pipeline,
@@ -15,7 +18,7 @@ use tokio_util::codec::LengthDelimitedCodec;
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(deny_unknown_fields)]
-pub struct VectorConfig {
+pub struct VectorSourceConfig {
     pub address: SocketListenAddr,
     pub keepalive: Option<TcpKeepaliveConfig>,
     #[serde(default = "default_shutdown_timeout_secs")]
@@ -28,7 +31,7 @@ fn default_shutdown_timeout_secs() -> u64 {
 }
 
 #[cfg(test)]
-impl VectorConfig {
+impl VectorSourceConfig {
     pub fn new(
         address: SocketListenAddr,
         keepalive: Option<TcpKeepaliveConfig>,
@@ -44,10 +47,10 @@ impl VectorConfig {
 }
 
 inventory::submit! {
-    SourceDescription::new::<VectorConfig>("vector")
+    SourceDescription::new::<VectorSourceConfig>("vector")
 }
 
-impl GenerateConfig for VectorConfig {
+impl GenerateConfig for VectorSourceConfig {
     fn generate_config() -> toml::Value {
         toml::Value::try_from(Self {
             address: SocketListenAddr::SocketAddr("0.0.0.0:9000".parse().unwrap()),
@@ -61,14 +64,14 @@ impl GenerateConfig for VectorConfig {
 
 #[async_trait::async_trait]
 #[typetag::serde(name = "vector")]
-impl SourceConfig for VectorConfig {
+impl SourceConfig for VectorSourceConfig {
     async fn build(
         &self,
         _name: &str,
         _globals: &GlobalOptions,
         shutdown: ShutdownSignal,
         out: Pipeline,
-    ) -> crate::Result<super::Source> {
+    ) -> crate::Result<Source> {
         let vector = VectorSource;
         let tls = MaybeTlsSettings::from_config(&self.tls, true)?;
         vector.run(
@@ -123,7 +126,7 @@ impl TcpSource for VectorSource {
 #[cfg(feature = "sinks-vector")]
 #[cfg(test)]
 mod test {
-    use super::VectorConfig;
+    use super::VectorSourceConfig;
     use crate::shutdown::ShutdownSignal;
     use crate::{
         config::{GlobalOptions, SinkConfig, SinkContext, SourceConfig},
@@ -142,10 +145,10 @@ mod test {
 
     #[test]
     fn generate_config() {
-        crate::test_util::test_generate_config::<VectorConfig>();
+        crate::test_util::test_generate_config::<VectorSourceConfig>();
     }
 
-    async fn stream_test(addr: SocketAddr, source: VectorConfig, sink: VectorSinkConfig) {
+    async fn stream_test(addr: SocketAddr, source: VectorSourceConfig, sink: VectorSinkConfig) {
         let (tx, rx) = Pipeline::new_test();
 
         let server = source
@@ -195,7 +198,7 @@ mod test {
         let addr = next_addr();
         stream_test(
             addr,
-            VectorConfig::new(addr.into(), None, None),
+            VectorSourceConfig::new(addr.into(), None, None),
             VectorSinkConfig {
                 address: format!("localhost:{}", addr.port()),
                 keepalive: None,
@@ -210,7 +213,7 @@ mod test {
         let addr = next_addr();
         stream_test(
             addr,
-            VectorConfig::new(addr.into(), None, Some(TlsConfig::test_config())),
+            VectorSourceConfig::new(addr.into(), None, Some(TlsConfig::test_config())),
             VectorSinkConfig {
                 address: format!("localhost:{}", addr.port()),
                 keepalive: None,
