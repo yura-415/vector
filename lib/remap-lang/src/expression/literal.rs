@@ -26,10 +26,6 @@ impl Literal {
         Box::new(self)
     }
 
-    pub fn as_value(&self) -> &Value {
-        &self.0
-    }
-
     pub fn into_value(self) -> Value {
         self.0
     }
@@ -65,6 +61,10 @@ impl Expression for Literal {
             kind: self.0.kind(),
             ..Default::default()
         }
+    }
+
+    fn as_value(&self) -> Option<&Value> {
+        Some(&self.0)
     }
 }
 

@@ -66,6 +66,19 @@ pub trait Expression: Send + Sync + fmt::Debug + dyn_clone::DynClone {
     ///
     /// This method is executed at compile-time.
     fn type_def(&self, state: &state::Compiler) -> TypeDef;
+
+    /// Get a reference to the value this expression will resolve to.
+    ///
+    /// Almost no expression can implement this method, because their value
+    /// cannot be known before `execute` is called.
+    ///
+    /// However, some expressions (such as the [`Literal`] expression) _can_
+    /// know their value before executing. This information can thus be used by
+    /// [`type_def`] implementations to try and give more accurate type
+    /// definition details at compile-time.
+    fn as_value(&self) -> Option<&Value> {
+        None
+    }
 }
 
 dyn_clone::clone_trait_object!(Expression);

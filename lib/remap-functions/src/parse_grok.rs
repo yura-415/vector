@@ -35,8 +35,7 @@ impl Function for ParseGrok {
 
         let pattern = arguments
             .required_literal("pattern")?
-            .as_value()
-            .clone()
+            .into_value()
             .try_bytes_utf8_lossy()?
             .into_owned();
 
