@@ -56,6 +56,8 @@ impl Expression for Arithmetic {
         let rhs_def = self.rhs.type_def(state);
         let type_def = lhs_def.clone() | rhs_def.clone();
 
+        dbg!(&type_def);
+
         match self.op {
             Or if lhs_def.kind.is_null() => rhs_def,
             Or if !lhs_def.kind.is_boolean() => lhs_def,
@@ -71,6 +73,10 @@ impl Expression for Arithmetic {
             Greater | GreaterOrEqual | Less | LessOrEqual => type_def
                 .fallible_unless(Kind::Integer | Kind::Float)
                 .with_constraint(Kind::Boolean),
+
+            // FIXME: 5 / "foo" isn't considered fallible because
+            // `fallible_unless` only checks if the type def contains an integer
+            // or float kind, not if it _only_ contains those types.
             Subtract | Divide | Remainder => type_def
                 .fallible_unless(Kind::Integer | Kind::Float)
                 .with_constraint(Kind::Integer | Kind::Float),

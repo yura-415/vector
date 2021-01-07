@@ -65,6 +65,8 @@ impl Expression for Map {
             .map(|(_, e)| e.type_def(state))
             .any(|d| d.is_fallible());
 
+        dbg!(&self);
+
         let inner_type_def = if self.expressions.is_empty() {
             None
         } else {

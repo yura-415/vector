@@ -159,9 +159,14 @@ impl TypeDef {
     }
 
     pub fn fallible_unless(mut self, kind: impl Into<value::Kind>) -> Self {
-        if !kind.into().contains(self.kind) {
+        let kind = kind.into();
+
+        if !kind.contains(self.kind) {
             self.fallible = true
         }
+
+        dbg!(&kind);
+        dbg!(&self);
 
         self
     }

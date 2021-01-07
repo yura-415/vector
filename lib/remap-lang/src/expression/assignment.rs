@@ -161,6 +161,8 @@ impl Expression for Assignment {
                     _ => unreachable!("nested infallible targets not supported"),
                 };
 
+                dbg!(&ok_type_def);
+
                 // Technically the parser rejects this invariant, because an
                 // expression that is known to be infallible cannot be assigned
                 // to an infallible target, since the error will always be
@@ -175,6 +177,7 @@ impl Expression for Assignment {
                     _ => unreachable!("nested infallible targets not supported"),
                 };
 
+                dbg!(&err_type_def);
                 ok_type_def.merge(err_type_def).into_fallible(false)
             }
         }
@@ -184,7 +187,10 @@ impl Expression for Assignment {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{expression::Literal, lit, test_type_def, Operator};
+    use crate::{
+        expression::{Arithmetic, Literal},
+        lit, test_type_def, Operator,
+    };
 
     test_type_def![
         variable {
@@ -226,6 +232,27 @@ mod tests {
             def: TypeDef {
                 fallible: false,
                 kind: Kind::Boolean,
+                ..Default::default()
+            },
+        }
+
+        infallible_ok_or_err {
+            expr: |state: &mut state::Compiler| {
+                let ok = Box::new(Target::Variable(Variable::new("ok".to_owned(), None)));
+                let err = Box::new(Target::Variable(Variable::new("err".to_owned(), None)));
+
+                let target = Target::Infallible { ok, err };
+                let value = Box::new(Arithmetic::new(
+                    Box::new(lit!(5).into()),
+                    Box::new(lit!("foo").into()),
+                    Operator::Divide,
+                ).into());
+
+                Assignment::new(target, value, state)
+            },
+            def: TypeDef {
+                fallible: false,
+                kind: Kind::Integer | Kind::Boolean,
                 ..Default::default()
             },
         }
