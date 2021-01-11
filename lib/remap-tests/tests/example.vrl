@@ -1,0 +1,6 @@
+# object: { "bar": "bar" }
+# result: { "bar": "bar", "foo": "test" }
+
+.foo = "test"
+.bar = "foo"
+.
