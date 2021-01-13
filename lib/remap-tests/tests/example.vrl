@@ -1,5 +1,5 @@
 # object: { "bar": "bar" }
-# result: { "bar": "bar", "foo": "test" }
+# result: { "bar": "foo", "foo": "test" }
 
 .foo = "test"
 .bar = "foo"
