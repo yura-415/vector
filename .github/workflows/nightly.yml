@@ -173,6 +173,7 @@ jobs:
           DOCKER_USERNAME: "${{ secrets.CI_DOCKER_USERNAME }}"
           DOCKER_PASSWORD: "${{ secrets.CI_DOCKER_PASSWORD }}"
           PLATFORM: "linux/amd64,linux/arm64"
+          DATE: "2021-01-05"
         run: |
           ./scripts/upgrade-docker.sh
           export VERSION=$(make version)
@@ -231,6 +232,7 @@ jobs:
       - env:
           AWS_ACCESS_KEY_ID: "${{ secrets.CI_AWS_ACCESS_KEY_ID }}"
           AWS_SECRET_ACCESS_KEY: "${{ secrets.CI_AWS_SECRET_ACCESS_KEY }}"
+          DATE: "2021-01-05"
         run: make release-s3
 
   release-cloudsmith:
@@ -323,4 +325,5 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: "${{ secrets.CI_AWS_ACCESS_KEY_ID }}"
           AWS_SECRET_ACCESS_KEY: "${{ secrets.CI_AWS_SECRET_ACCESS_KEY }}"
+          DATE: "2021-01-05"
         run: make release-helm
