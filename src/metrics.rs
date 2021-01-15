@@ -50,6 +50,7 @@ pub fn init() -> crate::Result<()> {
         registry: Arc::clone(&registry),
         cardinality_counter: Arc::clone(&cardinality_counter),
     };
+    println!("registering recorder ");
     // Apply a layer to capture tracing span fields as labels.
     let recorder = TracingContextLayer::new(VectorLabelFilter).layer(recorder);
     // Register the recorder globally.
@@ -71,13 +72,15 @@ impl VectorRecorder {
     where
         F: FnOnce() -> O,
     {
-        self.cardinality_counter.fetch_add(1, Ordering::Relaxed);
+        let i = self.cardinality_counter.fetch_add(1, Ordering::Relaxed);
+        println!("cardinality now {}", i);
         f()
     }
 }
 
 impl Recorder for VectorRecorder {
     fn register_counter(&self, key: Key, _unit: Option<Unit>, _description: Option<&'static str>) {
+        println!("registering {:?}", &key);
         let ckey = CompositeKey::new(MetricKind::COUNTER, key);
         self.registry.op(
             ckey,
@@ -86,6 +89,7 @@ impl Recorder for VectorRecorder {
         )
     }
     fn register_gauge(&self, key: Key, _unit: Option<Unit>, _description: Option<&'static str>) {
+        println!("registering {:?}", &key);
         let ckey = CompositeKey::new(MetricKind::GAUGE, key);
         self.registry.op(
             ckey,
@@ -99,6 +103,7 @@ impl Recorder for VectorRecorder {
         _unit: Option<Unit>,
         _description: Option<&'static str>,
     ) {
+        println!("registering {:?}", &key);
         let ckey = CompositeKey::new(MetricKind::HISTOGRAM, key);
         self.registry.op(
             ckey,
@@ -108,6 +113,7 @@ impl Recorder for VectorRecorder {
     }
 
     fn increment_counter(&self, key: Key, value: u64) {
+        println!("incrementing {:?}", &key);
         let ckey = CompositeKey::new(MetricKind::COUNTER, key);
         self.registry.op(
             ckey,
@@ -116,6 +122,7 @@ impl Recorder for VectorRecorder {
         )
     }
     fn update_gauge(&self, key: Key, value: GaugeValue) {
+        println!("updating {:?}", &key);
         let ckey = CompositeKey::new(MetricKind::GAUGE, key);
         self.registry.op(
             ckey,
@@ -124,6 +131,7 @@ impl Recorder for VectorRecorder {
         )
     }
     fn record_histogram(&self, key: Key, value: f64) {
+        println!("recording {:?}", &key);
         let ckey = CompositeKey::new(MetricKind::HISTOGRAM, key);
         self.registry.op(
             ckey,
