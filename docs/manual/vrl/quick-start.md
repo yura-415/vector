@@ -1,11 +1,22 @@
 ---
 title: VRL Quick Start
 description: "Get up and running with Vector Remap Language"
+sidebar_label: hidden
+hide_pagination: true
 ---
+
+This tutorial gets you started using [Vector Remap Language][vrl] (VRL) in a real Vector topology. It walks through
+two examples of parsing and transforming [Syslog](#syslog) and [JSON](#json) logs, respectively.
 
 ## Syslog
 
-Let's start by parsing and transforming some [Syslog] logs. Create a `vector.toml` file in the current directory and copy/paste this into it:
+Let's start with some [Syslog] logs. A typical Syslog message looks like this:
+
+```
+<93>2 2021-01-18T20:01:07.207Z for.us shaneIxD 4767 ID327 - Maybe we just shouldn't use computers
+```
+
+Create a `vector.toml` file in the current directory and copy/paste this into it:
 
 ```toml
 [sources.logs]
@@ -97,3 +108,4 @@ source = '''
 [generator]: /docs/reference/remap/functions/generator
 [parse_syslog]: /docs/reference/remap/functions/parse_syslog
 [syslog]: https://tools.ietf.org/html/rfc5424
+[vrl]: /docs/reference/vrl/introduction
