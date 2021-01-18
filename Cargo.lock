@@ -4945,6 +4945,7 @@ name = "portpicker"
 version = "1.0.0"
 dependencies = [
  "rand 0.8.2",
+<<<<<<< HEAD
 ]
 
 [[package]]
@@ -4989,6 +4990,8 @@ dependencies = [
  "chrono",
  "fallible-iterator",
  "postgres-protocol",
+=======
+>>>>>>> Rebase cargo.lock
 ]
 
 [[package]]
