@@ -26,6 +26,7 @@ pub mod namespace;
 mod port_forward;
 mod reader;
 mod resource_file;
+pub mod restart_rollout;
 mod temp_file;
 pub mod test_pod;
 mod up_down;
