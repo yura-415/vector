@@ -444,7 +444,7 @@ pub enum ErrorVariant {
     #[error("unnecessary no-op assignment")]
     UnnecessaryNoop(Span),
 
-    #[error("unhandled error")]
+    #[error("unhandled fallible assignment")]
     UnhandledError(String, String),
 
     #[error("unnecessary error assignment")]
