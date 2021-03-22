@@ -341,6 +341,7 @@ jobs:
           name: vector-${{ env.VECTOR_VERSION }}-armhf.deb
           path: target/artifacts
       - env:
+          REPO: "lithiumlaborg/vector"
           PLATFORM: "linux/amd64,linux/arm64,linux/arm/v7"
         run: |
           make release-docker
